@@ -1,0 +1,32 @@
+-- Quantidade de produtos de cada disponibilidade
+
+SELECT
+	'De Linha' AS disponibilidade, COUNT(*) AS 'Quantidade'
+
+	FROM produtocad
+
+		WHERE disponibilidade = '21073' -- De Linha
+
+			GROUP BY disponibilidade	
+
+UNION
+
+SELECT
+	'Encomenda' AS disponibilidade, COUNT(*) AS 'Quantidade'
+
+	FROM produtocad
+
+		WHERE disponibilidade = '21077' -- Encomenda
+
+			GROUP BY disponibilidade	
+
+UNION
+
+SELECT
+	'Fora do Mix' AS disponibilidade, COUNT(*) AS 'Quantidade'
+
+	FROM produtocad
+
+		WHERE disponibilidade = '29105' -- Fora do Mix
+
+			GROUP BY disponibilidade
