@@ -1,0 +1,31 @@
+
+SELECT 
+	Lo.Filial, /*Lo.NumOrd,*/ Lo.CodPro Cod, /*Lo.LoteInterno,*/ Lo.Lote, /*Lo.Quantidade AS Quant, Lo.Validade, Lo.DataLote, Lo.Situacao, Lo.Observacao, Lo.Usuario,Lo.Data, 
+	NF.NumOrd, NF.CodFor, lo.Tonalidade, lo.VendeApenasSaldo, lo.Bitola, FO.Nome AS Fornecedor,*/LEFT(TON.Nome,40) Tonalidade,LEFT(BT.Nome,40) Bitola,
+	SUM(SL.Quant) As Quantidade /*, Lo.PerComissao , lo.VendeSaldoOferta, LFL.ClasLoc*/ 
+
+	FROM 
+		Lote Lo 	
+		JOIN SaidaLote SL ON Lo.Filial = SL.Filial 
+		AND Lo.CodPro = SL.CodPro  
+		AND Lo.LoteInterno = SL.LoteInterno 	
+		LEFT JOIN ITEM TON ON Lo.Tonalidade = TON.OID 
+		AND TON.OID > 7	
+		LEFT JOIN ITEM BT ON Lo.Bitola = BT.OID 
+		AND BT.OID > 7	
+		LEFT JOIN  NFEntraCad NF ON Lo.Filial = NF.Filial 
+		AND Lo.NumOrd = NF.NumOrd 	
+		LEFT JOIN ITEM FO ON NF.CodFor = FO.OID 	
+		LEFT JOIN LOCALFISICOLOTE LFL ON LFL.FILIAL = LO.FILIAL 
+		AND LFL.CODPRO = LO.CODPRO 
+		--AND LFL.LOTEINTERNO = LO.LOTEINTERNO WHERE Lo.Filial = '02'  	
+		--AND Lo.CodPro = '25923'  	
+		AND SL.Atualizado = 1 
+
+		GROUP BY 
+			Lo.Filial, Lo.NumOrd, Lo.CodPro, Lo.LoteInterno, Lo.Lote, Lo.Quantidade, Lo.Validade, Lo.DataLote, Lo.Situacao, Lo.Observacao, Lo.Usuario, Lo.Data, NF.NumOrd, NF.CodFor,FO.Nome, lo.Tonalidade, lo.Bitola, lo.VendeApenasSaldo,TON.NOME,BT.NOME , lo.VendeSaldoOferta, LFL.ClasLoc, Lo.PerComissao  
+
+		HAVING
+			SUM(SL.Quant) BETWEEN 0.1 AND 30.0
+		
+			ORDER BY Quantidade desc /*Quantidade Desc , Lo.LoteInterno*/
