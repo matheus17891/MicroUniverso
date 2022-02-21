@@ -1,3 +1,4 @@
+-- Lista produtos com controle de lote e quantidade menor que 30
 
 SELECT 
 	Lo.Filial, /*Lo.NumOrd,*/ Lo.CodPro Cod, comprod.descricaolonga AS Descrição, /*Lo.LoteInterno,*/ Lo.Lote, /*Lo.Quantidade AS Quant, Lo.Validade, Lo.DataLote, Lo.Situacao, Lo.Observacao, Lo.Usuario,Lo.Data, 
@@ -16,13 +17,14 @@ SELECT
 			AND SL.Atualizado = 1 
 		LEFT JOIN complementoproduto comprod ON Lo.codpro = comprod.codpro
 		
-		/*WHERE 
-			Lo.Filial = 01*/
+		WHERE 
+			Lo.Filial = 01
 
 			GROUP BY 
 				Lo.Filial, Lo.NumOrd, Lo.CodPro, Lo.LoteInterno, Lo.Lote, Lo.Quantidade, Lo.Validade, Lo.DataLote, Lo.Situacao, Lo.Observacao, Lo.Usuario, Lo.Data, NF.NumOrd, NF.CodFor,FO.Nome, lo.Tonalidade, lo.Bitola, lo.VendeApenasSaldo,TON.NOME,BT.NOME , lo.VendeSaldoOferta, LFL.ClasLoc, Lo.PerComissao, comprod.descricaolonga  
 
-			HAVING
-				SUM(SL.Quant) BETWEEN 0.1 AND 30.0
+				HAVING
+					SUM(SL.Quant) BETWEEN 0.1 AND 30.0
 		
-				ORDER BY Quantidade desc /*Quantidade Desc , Lo.LoteInterno*/
+					ORDER BY 
+						Quantidade desc /*Quantidade Desc , Lo.LoteInterno*/
